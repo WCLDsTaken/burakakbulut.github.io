@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="tr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Burak Akbulut | Havacılık ve Uzay Mühendisi</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            light: '#38bdf8',
+                            DEFAULT: '#0284c7',
+                            dark: '#075985',
+                        },
+                        space: {
+                            900: '#090a0f',
+                            800: '#111827',
+                            700: '#1f2937',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-space-900 text-gray-200 font-sans antialiased overflow-x-hidden selection:bg-brand-light selection:text-space-900">
+
+    <canvas id="space-canvas" class="fixed top-0 left-0 w-full h-full -z-10"></canvas>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-40 transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex-shrink-0">
+                    <a href="#" class="text-2xl font-bold text-white tracking-wider">BA<span class="text-brand-light">.</span></a>
+                </div>
+                <div class="hidden lg:block">
+                    <div class="ml-10 flex items-baseline space-x-6">
+                        <a href="#about" class="hover:text-brand-light transition-colors px-3 py-2 rounded-md text-sm font-medium">Hakkımda</a>
+                        <a href="#skills" class="hover:text-brand-light transition-colors px-3 py-2 rounded-md text-sm font-medium">Yetkinlikler</a>
+                        <a href="#experience" class="hover:text-brand-light transition-colors px-3 py-2 rounded-md text-sm font-medium">Deneyim</a>
+                        <a href="#leadership" class="hover:text-brand-light transition-colors px-3 py-2 rounded-md text-sm font-medium">Faaliyetler</a>
+                        <a href="#projects" class="hover:text-brand-light transition-colors px-3 py-2 rounded-md text-sm font-medium">Projeler</a>
+                        <a href="#publications" class="hover:text-brand-light transition-colors px-3 py-2 rounded-md text-sm font-medium">Yayınlar</a>
+                        <a href="#contact" class="bg-brand-light/10 text-brand-light hover:bg-brand-light hover:text-space-900 transition-colors px-4 py-2 rounded-full text-sm font-semibold ml-2">İletişim</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero" class="min-h-screen flex items-center justify-center relative pt-20">
+        <div class="text-center px-4 max-w-4xl mx-auto z-10 reveal">
+            <h1 class="text-5xl md:text-7xl font-bold text-white mb-6 tracking-tight">
+                Burak <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-light to-blue-600">Akbulut</span>
+            </h1>
+            <p class="text-xl md:text-2xl text-gray-400 mb-10 font-light">
+                Havacılık ve Uzay Mühendisi | Aerodinamik & İtki Sistemleri Tasarımı
+            </p>
+            <div class="flex justify-center gap-4">
+                <a href="#projects" class="bg-brand-light hover:bg-brand text-space-900 font-semibold py-3 px-8 rounded-full transition-all duration-300 transform hover:scale-105 shadow-[0_0_20px_rgba(56,189,248,0.4)]">
+                    Projelerimi İncele
+                </a>
+                <a href="#contact" class="border border-brand-light text-brand-light hover:bg-brand-light hover:text-space-900 font-semibold py-3 px-8 rounded-full transition-all duration-300">
+                    İletişime Geç
+                </a>
+            </div>
+            <div class="mt-16 flex justify-center space-x-6 text-2xl text-gray-400">
+                <a href="https://linkedin.com" target="_blank" class="hover:text-brand-light transition-colors"><i class="fab fa-linkedin"></i></a>
+                <a href="mailto:burakakbulut04@gmail.com" class="hover:text-brand-light transition-colors"><i class="fas fa-envelope"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl md:text-4xl font-bold text-white mb-12 flex items-center reveal">
+                <span class="w-12 h-[2px] bg-brand-light mr-4"></span>
+                Hakkımda
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center reveal">
+                <div class="text-gray-300 space-y-6 text-lg leading-relaxed">
+                    <p>
+                        Ankara Yıldırım Beyazıt Üniversitesi <strong>Havacılık ve Uzay Mühendisliği (%100 İngilizce)</strong> bölümünde eğitimime devam ediyorum. 
+                    </p>
+                    <p>
+                        Aerodinamik tasarım, CFD analizleri, FEA (Statik ve Yorulma Analizi) ve uçuş dinamiği konularında uzmanlaşıyorum. TUSAŞ ve savunma sanayii firmalarındaki deneyimlerimle teorik bilgimi pratiğe dökme şansı buldum.
+                    </p>
+                    <p>
+                        Mühendisliği sadece teorik bir alan olarak değil, analiz edilebilir, optimize edilebilir ve üretilebilir sistemler bütünü olarak görüyor; çalışmalarımı bu vizyonla sürdürüyorum.
+                    </p>
+                </div>
+                <div class="relative group">
+                    <div class="absolute inset-0 bg-brand-light rounded-lg transform translate-x-4 translate-y-4 opacity-50 group-hover:translate-x-2 group-hover:translate-y-2 transition-transform duration-300"></div>
+                    <img src="https://images.unsplash.com/photo-1541185933-ef5d8ed016c2?auto=format&fit=crop&w=800&q=80" alt="Havacılık Tutkusu" class="relative rounded-lg w-full object-cover h-80 grayscale group-hover:grayscale-0 transition-all duration-500 z-10 border border-gray-700">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="py-20 bg-space-800/50 backdrop-blur-sm border-y border-gray-800 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl md:text-4xl font-bold text-white mb-12 flex items-center reveal">
+                <span class="w-12 h-[2px] bg-brand-light mr-4"></span>
+                Teknik Yetkinlikler
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- CAD/CAE -->
+                <div class="bg-space-900 p-8 rounded-xl border border-gray-700 hover:border-brand-light/50 transition-colors reveal delay-100">
+                    <div class="w-14 h-14 bg-brand-dark/30 rounded-lg flex items-center justify-center mb-6">
+                        <i class="fas fa-cube text-2xl text-brand-light"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-white mb-4">CAD / CAE & Yazılım</h3>
+                    <ul class="space-y-3 text-gray-400">
+                        <li><i class="fas fa-check text-brand-light mr-2"></i> ANSYS Fluent</li>
+                        <li><i class="fas fa-check text-brand-light mr-2"></i> SolidWorks</li>
+                        <li><i class="fas fa-check text-brand-light mr-2"></i> MATLAB & Simulink</li>
+                        <li><i class="fas fa-check text-brand-light mr-2"></i> PrePoMax (CalculiX)</li>
+                        <li><i class="fas fa-check text-brand-light mr-2"></i> XFLR5 & XFOIL</li>
+                    </ul>
+                </div>
+                <!-- Engineering Fields -->
+                <div class="bg-space-900 p-8 rounded-xl border border-gray-700 hover:border-brand-light/50 transition-colors reveal delay-200">
+                    <div class="w-14 h-14 bg-brand-dark/30 rounded-lg flex items-center justify-center mb-6">
+                        <i class="fas fa-fighter-jet text-2xl text-brand-light"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-white mb-4">Mühendislik Alanları</h3>
+                    <ul class="space-y-3 text-gray-400">
+                        <li><i class="fas fa-check text-brand-light mr-2"></i> Aerodinamik Tasarım</li>
+                        <li><i class="fas fa-check text-brand-light mr-2"></i> CFD Analizi</li>
+                        <li><i class="fas fa-check text-brand-light mr-2"></i> FEA (Statik & Yorulma)</li>
+                        <li><i class="fas fa-check text-brand-light mr-2"></i> İtki & Hava Alığı Boyutlandırma</li>
+                        <li><i class="fas fa-check text-brand-light mr-2"></i> Uçuş Dinamiği ve Kontrol</li>
+                    </ul>
+                </div>
+                <!-- Programming -->
+                <div class="bg-space-900 p-8 rounded-xl border border-gray-700 hover:border-brand-light/50 transition-colors reveal delay-300">
+                    <div class="w-14 h-14 bg-brand-dark/30 rounded-lg flex items-center justify-center mb-6">
+                        <i class="fas fa-code text-2xl text-brand-light"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-white mb-4">Programlama</h3>
+                    <ul class="space-y-3 text-gray-400">
+                        <li>
+                            <div class="flex justify-between mb-1">
+                                <span>Python</span>
+                                <span class="text-brand-light">Orta Seviye</span>
+                            </div>
+                            <div class="w-full bg-gray-700 rounded-full h-1.5"><div class="bg-brand-light h-1.5 rounded-full" style="width: 70%"></div></div>
+                        </li>
+                        <li>
+                            <div class="flex justify-between mb-1">
+                                <span>C</span>
+                                <span class="text-brand-light">Orta Seviye</span>
+                            </div>
+                            <div class="w-full bg-gray-700 rounded-full h-1.5"><div class="bg-brand-light h-1.5 rounded-full" style="width: 60%"></div></div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" class="py-20 relative">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl md:text-4xl font-bold text-white mb-16 flex items-center justify-center reveal">
+                Deneyim
+            </h2>
+            <div class="relative border-l border-gray-700 ml-3 md:ml-0">
+                <!-- Nurol -->
+                <div class="mb-12 ml-8 reveal">
+                    <span class="absolute flex items-center justify-center w-6 h-6 bg-space-900 rounded-full -left-3 ring-4 ring-gray-800">
+                        <div class="w-3 h-3 bg-brand-light rounded-full shadow-[0_0_10px_#38bdf8]"></div>
+                    </span>
+                    <div class="flex flex-col md:flex-row md:items-center justify-between mb-2">
+                        <h3 class="text-xl font-bold text-white">Nurol Makina ve Sanayi A.Ş.</h3>
+                        <time class="text-brand-light font-mono text-sm mt-1 md:mt-0">Ekim 2024 - Eylül 2025</time>
+                    </div>
+                    <h4 class="text-gray-400 mb-4 italic">Proje Araştırmacısı (Hibrit)</h4>
+                    <p class="text-gray-400 leading-relaxed text-sm md:text-base">
+                        Savunma sanayii imalatında Endüstri 4.0 dönüşümü, akıllı fabrikalar ve Yapay Zekâ (YZ) entegrasyonu üzerine 1 yıllık teknik fizibilite araştırması yürütülmesi.
+                    </p>
+                </div>
+                <!-- Bozok -->
+                <div class="mb-12 ml-8 reveal">
+                    <span class="absolute flex items-center justify-center w-6 h-6 bg-space-900 rounded-full -left-3 ring-4 ring-gray-800">
+                        <div class="w-3 h-3 bg-brand-light rounded-full shadow-[0_0_10px_#38bdf8]"></div>
+                    </span>
+                    <div class="flex flex-col md:flex-row md:items-center justify-between mb-2">
+                        <h3 class="text-xl font-bold text-white">Bozok Savunma Medikal ve Mühendislik</h3>
+                        <time class="text-brand-light font-mono text-sm mt-1 md:mt-0">Temmuz 2024 - Ağustos 2024</time>
+                    </div>
+                    <h4 class="text-gray-400 mb-4 italic">Mühendislik Stajyeri</h4>
+                    <p class="text-gray-400 leading-relaxed text-sm md:text-base">
+                        PrePoMax ile savunma donanımları üzerinde doğrusal statik ve yorulma (fatigue) sonlu elemanlar analizlerinin (FEA) gerçekleştirilmesi.
+                    </p>
+                </div>
+                <!-- TUSAŞ -->
+                <div class="ml-8 reveal">
+                    <span class="absolute flex items-center justify-center w-6 h-6 bg-space-900 rounded-full -left-3 ring-4 ring-gray-800">
+                        <div class="w-3 h-3 bg-brand-light rounded-full shadow-[0_0_10px_#38bdf8]"></div>
+                    </span>
+                    <div class="flex flex-col md:flex-row md:items-center justify-between mb-2">
+                        <h3 class="text-xl font-bold text-white">TUSAŞ - Türk Havacılık ve Uzay Sanayii</h3>
+                        <time class="text-brand-light font-mono text-sm mt-1 md:mt-0">Kasım 2023 - Mayıs 2024</time>
+                    </div>
+                    <h4 class="text-gray-400 mb-4 italic">Uzun Dönem Stajyer Mühendis</h4>
+                    <ul class="text-gray-400 leading-relaxed text-sm md:text-base list-disc list-inside space-y-2">
+                        <li>Dişli ve rotor gibi kritik uçuş sistemi bileşenlerinin talaşlı imalat süreçlerine destek verilmesi; statik ve yorulma testlerinin yürütülmesi.</li>
+                        <li>İHA montaj ve üretim hangarlarında gövde entegrasyonu, mekanik montaj ve uçuş öncesi kalite kontrol süreçleri.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Leadership Section -->
+    <section id="leadership" class="py-20 bg-space-800/50 backdrop-blur-sm border-y border-gray-800 relative">
+        <!-- Omitted extra HTML for brevity, kept exactly as before -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl md:text-4xl font-bold text-white mb-12 flex items-center reveal">
+                <span class="w-12 h-[2px] bg-brand-light mr-4"></span>
+                Liderlik & Sosyal Faaliyetler
+            </h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="space-y-6">
+                    <div class="bg-space-900 p-6 rounded-xl border border-gray-700 reveal">
+                        <div class="flex items-start justify-between">
+                            <div>
+                                <h3 class="text-xl font-bold text-white">AYBÜ Havacılık ve Uzay Kulübü</h3>
+                                <p class="text-brand-light text-sm mt-1">Başkan Yardımcısı & Sosyal Medya Yöneticisi</p>
+                            </div>
+                            <span class="text-xs font-mono text-gray-500 bg-gray-800 px-2 py-1 rounded">2022 - 2024</span>
+                        </div>
+                    </div>
+                    <div class="bg-space-900 p-6 rounded-xl border border-gray-700 reveal delay-100">
+                        <div class="flex items-start justify-between">
+                            <div>
+                                <h3 class="text-xl font-bold text-white">Turkdigitals</h3>
+                                <p class="text-brand-light text-sm mt-1">Havacılık Haberleri Editörü</p>
+                            </div>
+                            <span class="text-xs font-mono text-gray-500 bg-gray-800 px-2 py-1 rounded">2022 - 2024</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-space-900 p-8 rounded-xl border border-gray-700 reveal delay-200">
+                    <h3 class="text-2xl font-bold text-white mb-6">Hobiler & İlgi Alanları</h3>
+                    <div class="flex flex-wrap gap-3">
+                        <span class="px-4 py-2 bg-gray-800 text-gray-300 rounded-full text-sm border border-gray-700"><i class="fas fa-chess-knight mr-2"></i>Satranç (1500+ ELO)</span>
+                        <span class="px-4 py-2 bg-gray-800 text-gray-300 rounded-full text-sm border border-gray-700"><i class="fas fa-guitar mr-2"></i>Gitar</span>
+                        <span class="px-4 py-2 bg-gray-800 text-gray-300 rounded-full text-sm border border-gray-700"><i class="fas fa-user-ninja mr-2"></i>Judo (Turuncu)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NEW INTERACTIVE PROJECTS SECTION -->
+    <section id="projects" class="py-20 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl md:text-4xl font-bold text-white mb-12 flex items-center reveal">
+                <span class="w-12 h-[2px] bg-brand-light mr-4"></span>
+                Projeler
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                
+                <!-- Project Card 1 -->
+                <div class="relative group rounded-2xl overflow-hidden cursor-pointer h-80 border border-gray-700 shadow-lg reveal" onclick="openProjectModal('seyir-fuzesi')">
+                    <img src="assets/seyir_fuzesi_dis.jpg" alt="Seyir Füzesi" class="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700">
+                    
+                    <div class="absolute inset-0 bg-gradient-to-t from-space-900 via-space-900/80 to-transparent group-hover:from-space-900/60 transition-all duration-500"></div>
+                    
+                    <div class="absolute bottom-0 p-8 w-full transform translate-y-6 group-hover:translate-y-0 transition-all duration-500">
+                        <span class="text-xs font-semibold bg-brand-light/20 text-brand-light px-3 py-1 rounded-full border border-brand-light/30 shadow-lg backdrop-blur-sm">SolidWorks, ANSYS</span>
+                        <h3 class="text-2xl font-bold text-white mt-4 mb-2 drop-shadow-md">Taktik Ses Altı Seyir Füzesi Tasarımı</h3>
+                        
+                        <p class="text-gray-300 text-sm line-clamp-2 opacity-100 group-hover:opacity-0 transition-opacity duration-300">
+                            +200 km menzil, 20 kg faydalı yük ve bütçe kısıtları doğrultusunda kavramsal tasarım süreci.
+                        </p>
+                        
+                        <!-- Hover'da beliren Detay butonu -->
+                        <div class="absolute bottom-6 opacity-0 group-hover:opacity-100 transition-all duration-500 delay-100">
+                            <span class="bg-brand-light text-space-900 font-bold px-6 py-2 rounded-full shadow-[0_0_15px_rgba(56,189,248,0.5)] flex items-center">
+                                Projeyi İncele <i class="fas fa-arrow-right ml-2"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project Card 2 -->
+                <div class="relative group rounded-2xl overflow-hidden cursor-pointer h-80 border border-gray-700 shadow-lg reveal delay-100" onclick="openProjectModal('turbofan')">
+                    <img src="https://images.unsplash.com/photo-1555664424-778a1e5e1b48?auto=format&fit=crop&w=800&q=80" alt="Turbofan" class="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-t from-space-900 via-space-900/80 to-transparent group-hover:from-space-900/60 transition-all duration-500"></div>
+                    
+                    <div class="absolute bottom-0 p-8 w-full transform translate-y-6 group-hover:translate-y-0 transition-all duration-500">
+                        <span class="text-xs font-semibold bg-brand-light/20 text-brand-light px-3 py-1 rounded-full border border-brand-light/30 shadow-lg backdrop-blur-sm">MATLAB</span>
+                        <h3 class="text-2xl font-bold text-white mt-4 mb-2 drop-shadow-md">Art Yakıcılı Turbofan PCA Aracı</h3>
+                        <p class="text-gray-300 text-sm line-clamp-2 opacity-100 group-hover:opacity-0 transition-opacity duration-300">
+                            Turbofan motorların parametrik çevrim analizini (PCA) gerçekleştiren MATLAB arayüzü.
+                        </p>
+                        <div class="absolute bottom-6 opacity-0 group-hover:opacity-100 transition-all duration-500 delay-100">
+                            <span class="bg-brand-light text-space-900 font-bold px-6 py-2 rounded-full shadow-[0_0_15px_rgba(56,189,248,0.5)] flex items-center">
+                                Projeyi İncele <i class="fas fa-arrow-right ml-2"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project Card 3 -->
+                <div class="relative group rounded-2xl overflow-hidden cursor-pointer h-80 border border-gray-700 shadow-lg reveal" onclick="openProjectModal('roket')">
+                    <img src="https://images.unsplash.com/photo-1517976384346-3136801d605d?auto=format&fit=crop&w=800&q=80" alt="Roket" class="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-t from-space-900 via-space-900/80 to-transparent group-hover:from-space-900/60 transition-all duration-500"></div>
+                    
+                    <div class="absolute bottom-0 p-8 w-full transform translate-y-6 group-hover:translate-y-0 transition-all duration-500">
+                        <span class="text-xs font-semibold bg-brand-light/20 text-brand-light px-3 py-1 rounded-full border border-brand-light/30 shadow-lg backdrop-blur-sm">OpenRocket, MATLAB</span>
+                        <h3 class="text-2xl font-bold text-white mt-4 mb-2 drop-shadow-md">Statera Orta İrtifa Roket Takımı</h3>
+                        <p class="text-gray-300 text-sm line-clamp-2 opacity-100 group-hover:opacity-0 transition-opacity duration-300">
+                            3DOF uçuş simülasyonları ve aktif çift kademeli ayrılma sistemi tasarımı (Teknofest).
+                        </p>
+                        <div class="absolute bottom-6 opacity-0 group-hover:opacity-100 transition-all duration-500 delay-100">
+                            <span class="bg-brand-light text-space-900 font-bold px-6 py-2 rounded-full shadow-[0_0_15px_rgba(56,189,248,0.5)] flex items-center">
+                                Projeyi İncele <i class="fas fa-arrow-right ml-2"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project Card 4 -->
+                <div class="relative group rounded-2xl overflow-hidden cursor-pointer h-80 border border-gray-700 shadow-lg reveal delay-100" onclick="openProjectModal('kanat')">
+                    <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=800&q=80" alt="Aerodinamik" class="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-t from-space-900 via-space-900/80 to-transparent group-hover:from-space-900/60 transition-all duration-500"></div>
+                    
+                    <div class="absolute bottom-0 p-8 w-full transform translate-y-6 group-hover:translate-y-0 transition-all duration-500">
+                        <span class="text-xs font-semibold bg-brand-light/20 text-brand-light px-3 py-1 rounded-full border border-brand-light/30 shadow-lg backdrop-blur-sm">Simulink, XFOIL</span>
+                        <h3 class="text-2xl font-bold text-white mt-4 mb-2 drop-shadow-md">Kanat Profili Optimizasyonu & Kontrol</h3>
+                        <p class="text-gray-300 text-sm line-clamp-2 opacity-100 group-hover:opacity-0 transition-opacity duration-300">
+                            PID denetleyicili kapalı çevrim istikamet dümeni ve aerodinamik polar optimizasyonu.
+                        </p>
+                        <div class="absolute bottom-6 opacity-0 group-hover:opacity-100 transition-all duration-500 delay-100">
+                            <span class="bg-brand-light text-space-900 font-bold px-6 py-2 rounded-full shadow-[0_0_15px_rgba(56,189,248,0.5)] flex items-center">
+                                Projeyi İncele <i class="fas fa-arrow-right ml-2"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Publications & Contact sections kept identical for brevity -->
+    <section id="publications" class="py-20 bg-space-800/50 backdrop-blur-sm border-y border-gray-800 relative">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl md:text-4xl font-bold text-white mb-12 flex items-center justify-center reveal">Yayınlar & Patentler</h2>
+            <div class="bg-space-900 p-8 rounded-2xl border border-brand-light/30 shadow-[0_0_30px_rgba(56,189,248,0.1)] reveal relative overflow-hidden">
+                <div class="absolute top-0 right-0 p-6 opacity-10 pointer-events-none">
+                    <i class="fas fa-certificate text-8xl text-brand-light"></i>
+                </div>
+                <div class="relative z-10">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="bg-brand-light text-space-900 font-bold px-3 py-1 rounded text-sm uppercase tracking-wider">Bildiri & Patent</span>
+                        <span class="text-gray-400 font-mono text-sm"><i class="far fa-calendar-alt mr-2"></i>MUBAK 2025</span>
+                    </div>
+                    <h3 class="text-2xl md:text-3xl font-bold text-white mb-4">İHA’lar İçin Katlanabilir Plaka Tabanlı Darbe Emici İniş Sistemi Tasarımı ve Analizi</h3>
+                    <div class="w-16 h-1 bg-brand-light mb-6"></div>
+                    <p class="text-gray-300 leading-relaxed mb-4">İHA'lar için geliştirilen katlanabilir ve darbe emici iniş takımı mekanizmasına yönelik bildirinin ortak yazarlığı (MUBAK 2025, ISBN: 978-975-6707-84-5, s. 24).</p>
+                    <p class="text-brand-light font-medium flex items-center"><i class="fas fa-cogs mr-3"></i>Mekanizmanın patent başvuru sürecine kinematik ve yapısal analizlerle katkı sunulması.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROJECT MODAL (SEKMELER) -->
+    <div id="projectModal" class="fixed inset-0 z-[100] hidden flex items-center justify-center">
+        <!-- Arka plan bulanıklığı (Tıklayınca kapanır) -->
+        <div class="absolute inset-0 bg-space-900/90 backdrop-blur-md cursor-pointer transition-opacity" onclick="closeProjectModal()"></div>
+        
+        <!-- Modal Kutusu -->
+        <div class="bg-space-800 w-11/12 max-w-4xl max-h-[90vh] rounded-2xl border border-gray-700 relative z-10 flex flex-col overflow-hidden shadow-2xl transform scale-95 opacity-0 transition-all duration-300" id="modalContentBox">
+            
+            <button onclick="closeProjectModal()" class="absolute top-4 right-4 z-20 w-10 h-10 bg-space-900/50 hover:bg-brand-light text-white rounded-full flex items-center justify-center transition-colors">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+            
+            <!-- Modal Görsel -->
+            <div class="h-64 relative">
+                <img id="modalImg" src="" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-gradient-to-t from-space-800 to-transparent"></div>
+                <h2 id="modalTitle" class="absolute bottom-4 left-6 text-2xl md:text-3xl font-bold text-white">Proje Adı</h2>
+            </div>
+            
+            <!-- Sekmeler (Tabs) -->
+            <div class="flex border-b border-gray-700 px-6 pt-2 overflow-x-auto">
+                <button onclick="switchModalTab('ozet')" id="btn-ozet" class="modal-tab-btn active border-b-2 border-brand-light text-brand-light px-4 py-3 font-medium whitespace-nowrap">Özet</button>
+                <button onclick="switchModalTab('teknik')" id="btn-teknik" class="modal-tab-btn border-b-2 border-transparent text-gray-400 hover:text-gray-200 px-4 py-3 font-medium whitespace-nowrap">Teknik Detaylar & Araçlar</button>
+                <button onclick="switchModalTab('gorsel')" id="btn-gorsel" class="modal-tab-btn border-b-2 border-transparent text-gray-400 hover:text-gray-200 px-4 py-3 font-medium whitespace-nowrap">Görseller / Analiz Sonuçları</button>
+            </div>
+            
+            <!-- Sekme İçerikleri -->
+            <div class="p-6 overflow-y-auto flex-1 custom-scrollbar">
+                <div id="tab-ozet" class="modal-tab-content block text-gray-300 leading-relaxed"></div>
+                <div id="tab-teknik" class="modal-tab-content hidden text-gray-300 leading-relaxed"></div>
+                <div id="tab-gorsel" class="modal-tab-content hidden text-gray-300 leading-relaxed">
+                    <!-- Kullanıcı buraya projeye ait analiz ekran görüntülerini <img> olarak ekleyebilir -->
+                    <div class="p-8 border-2 border-dashed border-gray-700 rounded-xl text-center text-gray-500">
+                        <i class="fas fa-image text-4xl mb-3"></i>
+                        <p>Analiz (CFD, FEA vb.) çıktılarını veya proje görsellerini buraya ekleyebilirsiniz.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- LIGHTBOX MODAL (Fotoğraf Büyütme) -->
+    <div id="lightboxModal" class="fixed inset-0 z-[200] hidden flex items-center justify-center bg-black/95 backdrop-blur-lg transition-opacity" onclick="closeLightbox()">
+        <button class="absolute top-6 right-6 text-gray-400 hover:text-white transition-colors z-10" onclick="closeLightbox()">
+            <i class="fas fa-times text-3xl"></i>
+        </button>
+        <img id="lightboxImg" src="" class="max-w-[95vw] max-h-[95vh] object-contain rounded-lg shadow-[0_0_50px_rgba(0,0,0,0.8)] transform scale-95 transition-transform duration-300">
+    </div>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+</body>
+</html>

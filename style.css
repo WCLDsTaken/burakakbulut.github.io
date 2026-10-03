@@ -1,0 +1,41 @@
+/* style.css */
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: #090a0f; 
+}
+::-webkit-scrollbar-thumb {
+    background: #1f2937; 
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #38bdf8; 
+}
+
+/* Animations for Reveal on Scroll */
+.reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s ease-out;
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Delay classes for staggered animation */
+.delay-100 { transition-delay: 100ms; }
+.delay-200 { transition-delay: 200ms; }
+.delay-300 { transition-delay: 300ms; }
+
+/* Navbar glass effect */
+.nav-scrolled {
+    background-color: rgba(9, 10, 15, 0.8);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(31, 41, 55, 1);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+}
