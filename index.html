@@ -52,7 +52,6 @@
                         <a href="#leadership" class="hover:text-brand-light transition-colors px-3 py-2 rounded-md text-sm font-medium">Faaliyetler</a>
                         <a href="#projects" class="hover:text-brand-light transition-colors px-3 py-2 rounded-md text-sm font-medium">Projeler</a>
                         <a href="#publications" class="hover:text-brand-light transition-colors px-3 py-2 rounded-md text-sm font-medium">Yayınlar</a>
-                        <a href="#contact" class="bg-brand-light/10 text-brand-light hover:bg-brand-light hover:text-space-900 transition-colors px-4 py-2 rounded-full text-sm font-semibold ml-2">İletişim</a>
                     </div>
                 </div>
             </div>
@@ -72,12 +71,9 @@
                 <a href="#projects" class="bg-brand-light hover:bg-brand text-space-900 font-semibold py-3 px-8 rounded-full transition-all duration-300 transform hover:scale-105 shadow-[0_0_20px_rgba(56,189,248,0.4)]">
                     Projelerimi İncele
                 </a>
-                <a href="#contact" class="border border-brand-light text-brand-light hover:bg-brand-light hover:text-space-900 font-semibold py-3 px-8 rounded-full transition-all duration-300">
-                    İletişime Geç
-                </a>
             </div>
             <div class="mt-16 flex justify-center space-x-6 text-2xl text-gray-400">
-                <a href="https://linkedin.com" target="_blank" class="hover:text-brand-light transition-colors"><i class="fab fa-linkedin"></i></a>
+                <a href="https://www.linkedin.com/in/burak-akbulut-828bb91b6/" target="_blank" class="hover:text-brand-light transition-colors"><i class="fab fa-linkedin"></i></a>
                 <a href="mailto:burakakbulut04@gmail.com" class="hover:text-brand-light transition-colors"><i class="fas fa-envelope"></i></a>
             </div>
         </div>
@@ -181,7 +177,7 @@
             </h2>
             <div class="relative border-l border-gray-700 ml-3 md:ml-0">
                 <!-- Nurol -->
-                <div class="mb-12 ml-8 reveal">
+                <div class="mb-12 pl-8 relative reveal">
                     <span class="absolute flex items-center justify-center w-6 h-6 bg-space-900 rounded-full -left-3 ring-4 ring-gray-800">
                         <div class="w-3 h-3 bg-brand-light rounded-full shadow-[0_0_10px_#38bdf8]"></div>
                     </span>
@@ -195,7 +191,7 @@
                     </p>
                 </div>
                 <!-- Bozok -->
-                <div class="mb-12 ml-8 reveal">
+                <div class="mb-12 pl-8 relative reveal">
                     <span class="absolute flex items-center justify-center w-6 h-6 bg-space-900 rounded-full -left-3 ring-4 ring-gray-800">
                         <div class="w-3 h-3 bg-brand-light rounded-full shadow-[0_0_10px_#38bdf8]"></div>
                     </span>
@@ -209,7 +205,7 @@
                     </p>
                 </div>
                 <!-- TUSAŞ -->
-                <div class="ml-8 reveal">
+                <div class="pl-8 relative reveal">
                     <span class="absolute flex items-center justify-center w-6 h-6 bg-space-900 rounded-full -left-3 ring-4 ring-gray-800">
                         <div class="w-3 h-3 bg-brand-light rounded-full shadow-[0_0_10px_#38bdf8]"></div>
                     </span>
@@ -303,7 +299,7 @@
 
                 <!-- Project Card 2 -->
                 <div class="relative group rounded-2xl overflow-hidden cursor-pointer h-80 border border-gray-700 shadow-lg reveal delay-100" onclick="openProjectModal('turbofan')">
-                    <img src="https://images.unsplash.com/photo-1555664424-778a1e5e1b48?auto=format&fit=crop&w=800&q=80" alt="Turbofan" class="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700">
+                    <img src="assets/engine.gif" alt="Turbofan" class="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700">
                     <div class="absolute inset-0 bg-gradient-to-t from-space-900 via-space-900/80 to-transparent group-hover:from-space-900/60 transition-all duration-500"></div>
                     
                     <div class="absolute bottom-0 p-8 w-full transform translate-y-6 group-hover:translate-y-0 transition-all duration-500">
@@ -376,7 +372,7 @@
                     </div>
                     <h3 class="text-2xl md:text-3xl font-bold text-white mb-4">İHA’lar İçin Katlanabilir Plaka Tabanlı Darbe Emici İniş Sistemi Tasarımı ve Analizi</h3>
                     <div class="w-16 h-1 bg-brand-light mb-6"></div>
-                    <p class="text-gray-300 leading-relaxed mb-4">İHA'lar için geliştirilen katlanabilir ve darbe emici iniş takımı mekanizmasına yönelik bildirinin ortak yazarlığı (MUBAK 2025, ISBN: 978-975-6707-84-5, s. 24).</p>
+                    <p class="text-gray-300 leading-relaxed mb-4">İHA'lar için geliştirilen katlanabilir ve darbe emici iniş takımı mekanizmasına yönelik bildirinin ortak yazarlığı (MUBAK 2025, <a href="https://www.atilim.edu.tr/mubak2025/mubak2025_abstracts.pdf#page=34" target="_blank" class="text-brand-light hover:underline transition-colors" title="Bildiri Kitapçığını Aç">ISBN: 978-975-6707-84-5, s. 24 <i class="fas fa-external-link-alt text-xs ml-1"></i></a>).</p>
                     <p class="text-brand-light font-medium flex items-center"><i class="fas fa-cogs mr-3"></i>Mekanizmanın patent başvuru sürecine kinematik ve yapısal analizlerle katkı sunulması.</p>
                 </div>
             </div>
@@ -396,30 +392,26 @@
             </button>
             
             <!-- Modal Görsel -->
-            <div class="h-64 relative">
+            <div class="h-64 relative flex-shrink-0">
                 <img id="modalImg" src="" class="w-full h-full object-cover">
                 <div class="absolute inset-0 bg-gradient-to-t from-space-800 to-transparent"></div>
                 <h2 id="modalTitle" class="absolute bottom-4 left-6 text-2xl md:text-3xl font-bold text-white">Proje Adı</h2>
             </div>
             
             <!-- Sekmeler (Tabs) -->
-            <div class="flex border-b border-gray-700 px-6 pt-2 overflow-x-auto">
+            <div class="flex border-b border-gray-700 px-6 pt-2 overflow-x-auto flex-shrink-0">
                 <button onclick="switchModalTab('ozet')" id="btn-ozet" class="modal-tab-btn active border-b-2 border-brand-light text-brand-light px-4 py-3 font-medium whitespace-nowrap">Özet</button>
                 <button onclick="switchModalTab('teknik')" id="btn-teknik" class="modal-tab-btn border-b-2 border-transparent text-gray-400 hover:text-gray-200 px-4 py-3 font-medium whitespace-nowrap">Teknik Detaylar & Araçlar</button>
                 <button onclick="switchModalTab('gorsel')" id="btn-gorsel" class="modal-tab-btn border-b-2 border-transparent text-gray-400 hover:text-gray-200 px-4 py-3 font-medium whitespace-nowrap">Görseller / Analiz Sonuçları</button>
+                <button onclick="switchModalTab('sim')" id="btn-sim" class="modal-tab-btn hidden border-b-2 border-transparent text-gray-400 hover:text-gray-200 px-4 py-3 font-medium whitespace-nowrap"><i class="fas fa-play-circle text-brand-light mr-2"></i>Canlı Simülasyon</button>
             </div>
             
             <!-- Sekme İçerikleri -->
-            <div class="p-6 overflow-y-auto flex-1 custom-scrollbar">
+            <div class="p-6 overflow-y-auto flex-1 custom-scrollbar min-h-0">
                 <div id="tab-ozet" class="modal-tab-content block text-gray-300 leading-relaxed"></div>
                 <div id="tab-teknik" class="modal-tab-content hidden text-gray-300 leading-relaxed"></div>
-                <div id="tab-gorsel" class="modal-tab-content hidden text-gray-300 leading-relaxed">
-                    <!-- Kullanıcı buraya projeye ait analiz ekran görüntülerini <img> olarak ekleyebilir -->
-                    <div class="p-8 border-2 border-dashed border-gray-700 rounded-xl text-center text-gray-500">
-                        <i class="fas fa-image text-4xl mb-3"></i>
-                        <p>Analiz (CFD, FEA vb.) çıktılarını veya proje görsellerini buraya ekleyebilirsiniz.</p>
-                    </div>
-                </div>
+                <div id="tab-gorsel" class="modal-tab-content hidden text-gray-300 leading-relaxed"></div>
+                <div id="tab-sim" class="modal-tab-content hidden text-gray-300 leading-relaxed"></div>
             </div>
         </div>
     </div>
