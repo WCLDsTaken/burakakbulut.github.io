@@ -227,10 +227,26 @@ const projectsData = {
         teknik: '<ul class="list-disc list-inside space-y-2 text-gray-300"><li><strong>Simülasyon:</strong> 3 Serbestlik Dereceli (3DOF) uçuş ve yörünge simülasyon raporlarının hazırlanması.</li><li><strong>Yapısal Tasarım:</strong> Aktif çift kademeli ayrılma sistemlerinin üretimine teknik katkı.</li><li><strong>Araçlar:</strong> OpenRocket, MATLAB, SolidWorks.</li></ul>',
     },
     'kanat': {
-        title: 'Kanat Profili Optimizasyonu & Kontrol',
-        img: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=800&q=80',
-        ozet: '<p>Dönem projesi kapsamında, MATLAB ve XFOIL betikleri kullanılarak otomatik aerodinamik polar optimizasyonunun gerçekleştirilmesi.</p>',
-        teknik: '<ul class="list-disc list-inside space-y-2 text-gray-300"><li><strong>Otomasyon:</strong> MATLAB-XFOIL bağlantısı kurularak aerodinamik polar (Cl/Cd) verilerinin optimize edilmesi.</li><li><strong>Kontrol:</strong> Simulink ortamında PID denetleyicili kapalı çevrim istikamet dümeni (rudder) kontrolcüsü tasarımı.</li></ul>',
+        title: 'Kritik Mach Sayısı (Mcr) Optimizasyonu',
+        img: 'assets/airfoil_poly.png',
+        ozet: '<p>Sıkıştırılabilir aerodinamik (Compressible Aerodynamics) ilkeleri kullanılarak asimetrik bir kanat profilinin Kritik Mach sayısını (Mcr) maksimize etme projesi.</p><br><p>Hess-Smith panel metodu tabanlı kendi hesaplama algoritmamız ve MATLAB <code>fmincon</code> aracı kullanılarak, şok dalgası oluşumunu geciktiren en optimum polinom ve spline tabanlı kanat geometrileri elde edilmiştir.</p>',
+        teknik: '<ul class="list-disc list-inside space-y-2 text-gray-300"><li><strong>Kullanılan Algoritmalar:</strong> Hess-Smith Panel Method, Prandtl-Glauert Compressibility Correction.</li><li><strong>Optimizasyon:</strong> MATLAB <code>fmincon</code> (SQP Algorithm) ile aerodinamik şekil optimizasyonu (Shape Optimization).</li><li><strong>Geometri Parametrizasyonu:</strong> Cubic Spline interpolation ve Polinom denklemleri.</li></ul>',
+        gorsel: `
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-2">
+                <div class="space-y-2 group sm:col-span-2">
+                    <img src="assets/airfoil_poly.png" onclick="openLightbox(this.src)" title="Büyütmek için tıklayın" class="cursor-pointer rounded-xl w-full object-cover border border-gray-700 shadow-lg hover:border-brand-light hover:scale-[1.02] transition-all bg-white p-2">
+                    <p class="text-sm font-medium text-center text-brand-light">Polynomial Parameterization Optimizasyonu (Kapak)</p>
+                </div>
+                <div class="space-y-2 group">
+                    <img src="assets/cp_grafik.png" onclick="openLightbox(this.src)" title="Büyütmek için tıklayın" class="cursor-pointer rounded-xl w-full h-48 object-cover border border-gray-700 shadow-lg hover:border-brand-light hover:scale-[1.02] transition-all bg-white p-2">
+                    <p class="text-sm font-medium text-center text-brand-light">Basınç Katsayısı (Cp) Dağılımı</p>
+                </div>
+                <div class="space-y-2 group">
+                    <img src="assets/airfoil_spline.png" onclick="openLightbox(this.src)" title="Büyütmek için tıklayın" class="cursor-pointer rounded-xl w-full h-48 object-cover border border-gray-700 shadow-lg hover:border-brand-light hover:scale-[1.02] transition-all bg-white p-2">
+                    <p class="text-sm font-medium text-center text-brand-light">Spline Tabanlı Optimizasyon Grafiği</p>
+                </div>
+            </div>
+        `
     }
 };
 
