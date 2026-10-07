@@ -221,10 +221,30 @@ const projectsData = {
         `
     },
     'roket': {
-        title: 'Statera Orta İrtifa Roket Takımı',
-        img: 'https://images.unsplash.com/photo-1517976384346-3136801d605d?auto=format&fit=crop&w=800&q=80',
-        ozet: '<p>Teknofest 2024 kapsamında tasarlanan orta irtifa roket projesi. Yapısal tasarım ve yörünge simülasyonları gibi kritik görevler üstlenilmiştir.</p>',
-        teknik: '<ul class="list-disc list-inside space-y-2 text-gray-300"><li><strong>Simülasyon:</strong> 3 Serbestlik Dereceli (3DOF) uçuş ve yörünge simülasyon raporlarının hazırlanması.</li><li><strong>Yapısal Tasarım:</strong> Aktif çift kademeli ayrılma sistemlerinin üretimine teknik katkı.</li><li><strong>Araçlar:</strong> OpenRocket, MATLAB, SolidWorks.</li></ul>',
+        title: 'Statera Orta İrtifa Roket Takımı (2-DOF Simülasyon)',
+        img: 'assets/roket_mesh.png',
+        ozet: '<p>Teknofest 2022 Roket Yarışması kapsamında hazırlanan uçuş benzetim (KTR) raporu çalışması.</p><br><p>Roketin aerodinamik karakteristiklerinin CFD ile çözümlenmesi ve elde edilen verilerle MATLAB-Simulink üzerinde 2 Serbestlik Dereceli (2-DOF) uçuş ve yörünge simülasyonunun kurulması süreçlerini içermektedir.</p>',
+        teknik: '<ul class="list-disc list-inside space-y-2 text-gray-300"><li><strong>Aerodinamik (CFD):</strong> ANSYS Fluent kullanılarak süpersonik/sesaltı hızlarda aerodinamik (Cd) analizleri.</li><li><strong>Uçuş Benzetimi:</strong> MATLAB Simulink üzerinde Euler çözücüsü ile 2-DOF kinematik ve dinamik uçuş modeli.</li><li><strong>Hesaplamalar:</strong> Zamana bağlı itki, kütle azalışı, dinamik basınç ve atmosferik yoğunluk modellemeleri.</li></ul>',
+        gorsel: `
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-2">
+                <div class="space-y-2 group sm:col-span-2">
+                    <video src="assets/roket_ayrilma.mp4" autoplay loop muted playsinline class="rounded-xl w-full max-h-80 object-cover border border-gray-700 shadow-lg bg-black"></video>
+                    <p class="text-sm font-medium text-center text-brand-light">Aktif Çift Kademeli Ayrılma Sistemi (Donanım Testi)</p>
+                </div>
+                <div class="space-y-2 group sm:col-span-2">
+                    <img src="assets/roket_mesh.png" onclick="openLightbox(this.src)" title="Büyütmek için tıklayın" class="cursor-pointer rounded-xl w-full h-64 object-cover border border-gray-700 shadow-lg hover:border-brand-light hover:scale-[1.02] transition-all bg-white p-2">
+                    <p class="text-sm font-medium text-center text-brand-light">ANSYS Fluent - Roket Mesh Yapısı</p>
+                </div>
+                <div class="space-y-2 group">
+                    <img src="assets/roket_simulink.png" onclick="openLightbox(this.src)" title="Büyütmek için tıklayın" class="cursor-pointer rounded-xl w-full h-48 object-cover border border-gray-700 shadow-lg hover:border-brand-light hover:scale-[1.02] transition-all bg-white p-2">
+                    <p class="text-sm font-medium text-center text-brand-light">MATLAB Simulink (2-DOF Uçuş Modeli)</p>
+                </div>
+                <div class="space-y-2 group">
+                    <img src="assets/roket_grafik.png" onclick="openLightbox(this.src)" title="Büyütmek için tıklayın" class="cursor-pointer rounded-xl w-full h-48 object-cover border border-gray-700 shadow-lg hover:border-brand-light hover:scale-[1.02] transition-all bg-white p-2">
+                    <p class="text-sm font-medium text-center text-brand-light">Uçuş Yörünge & Performans Analizi</p>
+                </div>
+            </div>
+        `
     },
     'kanat': {
         title: 'Kritik Mach Sayısı (Mcr) Optimizasyonu',
