@@ -267,6 +267,36 @@ const projectsData = {
                 </div>
             </div>
         `
+    },
+    'real-engine': {
+        title: 'Gerçek Çevrim İtki Analiz Aracı (Real PCA with Losses)',
+        img: 'assets/real_engine_gui.png',
+        ozet: '<p>AEE 431 İtki Sistemleri kapsamında geliştirilen, gaz türbinli motorların bileşen verimsizlikleri ve gerçek akışkan özellikleri altındaki termodinamik davranışını modelleyen kapsamlı mühendislik yazılımı.</p><br><p>Tek kademeli Turbojet ve Ayrık/Karışık Akışlı Turbofan motor tiplerini desteklemekte; kompresör/fan politropik verimleri, türbin soğutma kayıpları, basınç düşümleri ve art yakıcı (Afterburner ON/OFF) durumlarını simüle edebilmektedir.</p>',
+        teknik: '<ul class="list-disc list-inside space-y-2 text-gray-300"><li><strong>Gerçek Gaz Özellikleri:</strong> Mattingly Tablo D.1 polinom interpolasyonu ile sıcaklığa bağlı entalpi ve indirgenmiş basınç hesaplamaları.</li><li><strong>İteratif Yanma Odası Çözücüsü:</strong> Yakıt-hava oranı ($f$) için $|\Delta f| < 10^{-4}$ toleransında yakınsayan sayısal algoritma.</li><li><strong>Bileşen Kayıpları:</strong> Giriş basınç toparlanması, politropik/adyabatik kompresör-türbin verimleri, mekanik ve yanma verimsizlikleri.</li><li><strong>Doğrulama (Benchmark):</strong> Hesaplanan itki, TSFC ve verim metriklerinin Mattingly PARA referans yazılımı ile çapraz doğrulanması.</li><li><strong>Kullanıcı Arayüzü:</strong> MATLAB App Designer (uifigure) tabanlı interaktif görsel analiz arayüzü.</li></ul>',
+        gorsel: `
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-2">
+                <div class="space-y-2 group sm:col-span-2">
+                    <img src="assets/real_engine_gui.png" onclick="openLightbox(this.src)" title="Büyütmek için tıklayın" class="cursor-pointer rounded-xl w-full h-72 object-cover border border-gray-700 shadow-lg hover:border-brand-light hover:scale-[1.01] transition-all bg-space-900 p-1">
+                    <p class="text-sm font-medium text-center text-brand-light">MATLAB App Designer Grafiksel Kullanıcı Arayüzü (GUI)</p>
+                </div>
+                <div class="space-y-2 group sm:col-span-2">
+                    <img src="assets/real_engine_tables.png" onclick="openLightbox(this.src)" title="Büyütmek için tıklayın" class="cursor-pointer rounded-xl w-full object-cover border border-gray-700 shadow-lg hover:border-brand-light hover:scale-[1.01] transition-all bg-space-900 p-1">
+                    <p class="text-sm font-medium text-center text-brand-light">Termodinamik İstasyon Durumları & Performans Tablosu (Afterburner ON/OFF)</p>
+                </div>
+                <div class="space-y-2 group">
+                    <img src="assets/real_engine_thrust_para.png" onclick="openLightbox(this.src)" title="Büyütmek için tıklayın" class="cursor-pointer rounded-xl w-full h-52 object-contain border border-gray-700 shadow-lg hover:border-brand-light hover:scale-[1.02] transition-all bg-white p-2">
+                    <p class="text-sm font-medium text-center text-brand-light">Spesifik İtki: MATLAB vs PARA Doğrulaması</p>
+                </div>
+                <div class="space-y-2 group">
+                    <img src="assets/real_engine_tsfc_para.png" onclick="openLightbox(this.src)" title="Büyütmek için tıklayın" class="cursor-pointer rounded-xl w-full h-52 object-contain border border-gray-700 shadow-lg hover:border-brand-light hover:scale-[1.02] transition-all bg-white p-2">
+                    <p class="text-sm font-medium text-center text-brand-light">Özgül Yakıt Tüketimi (TSFC): MATLAB vs PARA</p>
+                </div>
+                <div class="space-y-2 group sm:col-span-2">
+                    <img src="assets/real_engine_tf_pic.png" onclick="openLightbox(this.src)" title="Büyütmek için tıklayın" class="cursor-pointer rounded-xl w-full h-56 object-contain border border-gray-700 shadow-lg hover:border-brand-light hover:scale-[1.02] transition-all bg-white p-2">
+                    <p class="text-sm font-medium text-center text-brand-light">Turbofan Kompresör Basınç Oranına (πc) Bağlı İtki Değişimi (M0 = 0.2 vs 2.0)</p>
+                </div>
+            </div>
+        `
     }
 };
 
