@@ -297,6 +297,48 @@ const projectsData = {
                 </div>
             </div>
         `
+    },
+    'wind-tunnel': {
+        title: 'Masaüstü Rüzgar Tüneli Tasarımı & 3B Akış Benzetimi',
+        img: 'assets/wind_tunnel_thumb.png',
+        ozet: '<p>Aerodinamik test ve eğitim süreçleri için geliştirilmiş, dumanla akış görselleştirme kabiliyetine sahip kompakt masaüstü açık devre ses altı (subsonic) rüzgar tüneli tasarımı ve etkileşimli 3B dijital ikizi.</p><br><p>Tünel; 150×120×300 mm şeffaf pleksiglas test odası, 6 mm petek (honeycomb) akış düzleştirici, 4:1 daralma (contraction) nozulu, ultrasonik duman/sis enjeksiyon sistemi ve 120 mm PWM kontrollü fan ünitesinden oluşmaktadır. Proje kapsamında ayrıca Three.js tabanlı gerçek zamanlı 3B simülasyon, duman partikül fiziği, patlatılmış montaj (exploded view) ve kesit düzlemleri geliştirilmiştir.</p>',
+        teknik: '<ul class="list-disc list-inside space-y-2 text-gray-300"><li><strong>Test Odası Boyutları:</strong> 150 × 120 × 300 mm (Akrilik / Pleksiglas şeffaf gövde, model erişim kapağı).</li><li><strong>Akış İyileştirme:</strong> Giriş çanı (Bellmouth) + 6 mm petek (Honeycomb) düzleştirici + 4:1 kontraksiyon daralma oranı.</li><li><strong>Tahrik Sistemi:</strong> 120 mm yüksek statik basınçlı PWM fan (0 - 3000 RPM ayarlanabilir devir).</li><li><strong>Akış Görselleştirme:</strong> 12V ultrasonik sis modülü, kılcal enjeksiyon nozulu ve LED kontrast aydınlatma.</li><li><strong>Dijital İkiz (WebGL):</strong> Three.js, rüzgar tüneli 3B CAD bileşenleri, 300+ interaktif duman partikülü, Euler integrasyonu, patlatılmış montaj ve kesit düzlemleri.</li></ul>',
+        gorsel: `
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-2">
+                <div class="space-y-2 group sm:col-span-2">
+                    <img src="assets/wind_tunnel_thumb.png" onclick="openLightbox(this.src)" title="Büyütmek için tıklayın" class="cursor-pointer rounded-xl w-full h-72 object-cover border border-gray-700 shadow-lg hover:border-brand-light hover:scale-[1.01] transition-all bg-space-900">
+                    <p class="text-sm font-medium text-center text-brand-light">Rüzgar Tüneli 3B Montajı & Test Odası İçi Model İncelemesi</p>
+                </div>
+                <div class="bg-space-900/80 p-5 rounded-xl border border-gray-700 space-y-3 sm:col-span-2">
+                    <h4 class="text-base font-bold text-white flex items-center"><i class="fas fa-layer-group text-brand-light mr-2"></i>Tünel Bileşenleri & Alt Sistemler</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs text-gray-300">
+                        <div class="p-3 bg-space-800 rounded-lg border border-gray-700/60">
+                            <span class="text-brand-light font-bold block mb-1">1. Giriş & Düzleştirme</span>
+                            Aerodinamik çan ağzı, 6 mm hücreli petek tabaka ve 4:1 oranlı daralma nozulu ile türbülans sönümleme.
+                        </div>
+                        <div class="p-3 bg-space-800 rounded-lg border border-gray-700/60">
+                            <span class="text-brand-light font-bold block mb-1">2. Test Odası & Sis Enjeksiyonu</span>
+                            150x120x300 mm şeffaf pleksi kabin, 1:64 ölçekli Hot Wheels araç modeli, kılcal duman nozulu ve ayarlanabilir duman debisi.
+                        </div>
+                        <div class="p-3 bg-space-800 rounded-lg border border-gray-700/60">
+                            <span class="text-brand-light font-bold block mb-1">3. Difüzör & Fan Ünitesi</span>
+                            Kademeli genişleyen difüzör ve titreşim sönümleyici montajlı 120 mm yüksek devirli çekiş fanı.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `,
+        sim: `
+            <div class="w-full flex flex-col space-y-3">
+                <div class="flex items-center justify-between text-xs text-gray-300 bg-space-900/80 px-4 py-3 rounded-xl border border-gray-700 shadow-inner">
+                    <span class="flex items-center"><i class="fas fa-mouse text-brand-light mr-2"></i><strong>Sol Tık:</strong> Döndür | <strong>Sağ Tık:</strong> Kaydır | <strong>Tekerlek:</strong> Yakınlaş/Uzaklaş</span>
+                    <a href="wind_tunnel_sim.html" target="_blank" class="text-brand-light font-semibold hover:underline flex items-center ml-2">
+                        Tam Ekranda Aç <i class="fas fa-external-link-alt ml-1"></i>
+                    </a>
+                </div>
+                <iframe src="wind_tunnel_sim.html" class="w-full h-[540px] rounded-xl border border-gray-700 shadow-2xl bg-space-900" loading="lazy"></iframe>
+            </div>
+        `
     }
 };
 
@@ -327,6 +369,11 @@ window.openProjectModal = function(projectId) {
     if (data.sim) {
         simTab.innerHTML = data.sim;
         simBtn.classList.remove('hidden');
+        if (projectId === 'wind-tunnel') {
+            simBtn.innerHTML = '<i class="fas fa-cube text-brand-light mr-2"></i>3B Etkileşimli Tünel';
+        } else {
+            simBtn.innerHTML = '<i class="fas fa-play-circle text-brand-light mr-2"></i>Canlı Simülasyon';
+        }
         // Initial Calculation
         if (projectId === 'turbofan') {
             setTimeout(calculateTurbojet, 100);

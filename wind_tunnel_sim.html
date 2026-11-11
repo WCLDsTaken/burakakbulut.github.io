@@ -1,0 +1,470 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Rüzgar Tüneli 3B Simülasyonu</title>
+<style>
+:root {
+  --bg: #090a0f;
+  --fg: #e2e8f0;
+  --mut: #94a3b8;
+  --card: #111827;
+  --ln: #1f2937;
+  --ac: #38bdf8;
+  box-sizing: border-box;
+}
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--fg);
+  font: 13px/1.4 system-ui, -apple-system, sans-serif;
+  user-select: none;
+}
+#stage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+  cursor: grab;
+}
+canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.tag {
+  position: absolute;
+  transform: translate(-50%, -100%);
+  font-size: 11px;
+  font-weight: 500;
+  padding: 2px 7px;
+  border: 1px solid rgba(56, 189, 248, 0.4);
+  background: rgba(17, 24, 39, 0.85);
+  backdrop-filter: blur(4px);
+  color: #f8fafc;
+  white-space: nowrap;
+  pointer-events: none;
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+}
+.tag.dim {
+  border-color: var(--ac);
+  color: var(--ac);
+}
+.control-bar {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 24px);
+  max-width: 900px;
+  background: rgba(17, 24, 39, 0.85);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  border-radius: 12px;
+  padding: 8px 14px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  align-items: center;
+  justify-content: center;
+  z-index: 20;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+}
+.btn-group {
+  display: flex;
+  gap: 4px;
+}
+button {
+  font: inherit;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 4px 9px;
+  border: 1px solid #374151;
+  background: #1f2937;
+  color: #cbd5e1;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+button:hover {
+  border-color: var(--ac);
+  color: #fff;
+  background: #28303e;
+}
+button[aria-pressed="true"] {
+  border-color: var(--ac);
+  color: #090a0f;
+  background: var(--ac);
+  font-weight: 600;
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.4);
+}
+.slider-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #cbd5e1;
+  font-size: 11px;
+}
+input[type=range] {
+  width: 90px;
+  accent-color: var(--ac);
+  cursor: pointer;
+}
+.guide-hint {
+  position: absolute;
+  top: 12px;
+  left: 14px;
+  background: rgba(17, 24, 39, 0.7);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255,255,255,0.08);
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 11px;
+  color: #94a3b8;
+  pointer-events: none;
+  z-index: 10;
+}
+.guide-hint span {
+  color: var(--ac);
+  font-weight: 600;
+}
+</style>
+</head>
+<body>
+
+<div class="guide-hint">
+  🖱️ <span>Döndür:</span> Sol Tık + Sürükle | 🔍 <span>Yakınlaş:</span> Tekerlek
+</div>
+
+<div id="stage"></div>
+
+<div class="control-bar">
+  <div class="btn-group">
+    <button data-v="iso">İzometrik</button>
+    <button data-v="yan">Yan</button>
+    <button data-v="ust">Üst</button>
+    <button data-v="giris">Giriş</button>
+  </div>
+  <div class="btn-group">
+    <button data-t="sis" aria-pressed="true">Sis Akışı</button>
+    <button data-t="led" aria-pressed="true">LED</button>
+    <button data-t="kes" aria-pressed="false">Kesit</button>
+    <button data-t="cam" aria-pressed="false">Camı Aç</button>
+    <button data-t="dim" aria-pressed="false">Ölçüler</button>
+  </div>
+  <label class="slider-label">Fan <input id="fan" type="range" min="0" max="1" step="0.01" value="0.75"></label>
+  <label class="slider-label">Ayır <input id="ex" type="range" min="0" max="1" step="0.01" value="0"></label>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function(){
+const T=THREE, st=document.getElementById('stage'), $=id=>document.getElementById(id);
+const bgCol=new T.Color(0x090a0f);
+const ac=0x38bdf8;
+const r=new T.WebGLRenderer({antialias:true});
+r.setPixelRatio(Math.min(devicePixelRatio,2));
+r.outputEncoding=T.sRGBEncoding;
+r.toneMapping=T.ACESFilmicToneMapping;
+r.toneMappingExposure=0.95;
+r.shadowMap.enabled=true;
+r.shadowMap.type=T.PCFSoftShadowMap;
+r.localClippingEnabled=true;
+st.appendChild(r.domElement);
+
+const sc=new T.Scene(), cam=new T.PerspectiveCamera(32,1,10,8000);
+sc.background=bgCol;
+sc.fog=new T.Fog(bgCol, 2200, 5000);
+
+/* ortam yansımaları */
+const es=new T.Scene();
+es.background=new T.Color(0x131a24);
+function sb(x,y,z,s,i){
+  const m=new T.Mesh(new T.PlaneGeometry(s,s),new T.MeshBasicMaterial({color:new T.Color().setScalar(i),side:T.DoubleSide}));
+  m.position.set(x,y,z);
+  m.lookAt(0,0,0);
+  es.add(m);
+}
+sb(0,60,0,50,5); sb(60,25,35,35,3.5); sb(-55,20,-40,30,2.5); sb(0,10,75,25,2);
+sc.environment=new T.PMREMGenerator(r).fromScene(es,.03).texture;
+
+const dl=new T.DirectionalLight(0xffffff,1.8);
+dl.position.set(350,800,520);
+dl.target.position.set(200,-80,0);
+sc.add(dl,dl.target);
+dl.castShadow=true;
+dl.shadow.mapSize.set(2048,2048);
+const sh=dl.shadow.camera;
+sh.left=-750; sh.right=750; sh.top=600; sh.bottom=-600; sh.near=100; sh.far=2200;
+dl.shadow.bias=-.0004;
+dl.shadow.normalBias=1.2;
+
+/* malzemeler */
+const S=(c,ro,me,o)=>new T.MeshStandardMaterial(Object.assign({color:c,roughness:ro,metalness:me||0},o||{}));
+const paper=S(0x151921,.85,0,{side:T.DoubleSide});
+const foam=S(0xe2e8f0,.95,0,{side:T.DoubleSide});
+const strawM=S(0x0f172a,.3,.1,{side:T.DoubleSide});
+const mAc=S(ac,.45,0,{side:T.DoubleSide});
+const plastic=S(0x334155,.5,.05,{side:T.DoubleSide});
+const paneM=S(0xbae6fd,.03,0,{transparent:true,opacity:.18,envMapIntensity:2.0,depthWrite:false,side:T.DoubleSide});
+const canM=S(0xf1f5f9,.4,0,{transparent:true,opacity:.55,side:T.DoubleSide,depthWrite:false});
+
+function mesh(g,m,grp,x,y,z){const me=new T.Mesh(g,m);me.position.set(x||0,y||0,z||0);grp.add(me);return me}
+function box(w,h,d,m,grp,x,y,z){return mesh(new T.BoxGeometry(w,h,d),m,grp,x,y,z)}
+function ring(W,H,w,h,t,x,grp,caps,sides){
+ const s=new T.Shape();s.moveTo(-W/2,-H/2);s.lineTo(W/2,-H/2);s.lineTo(W/2,H/2);s.lineTo(-W/2,H/2);s.closePath();
+ const q=new T.Path();q.moveTo(-w/2,-h/2);q.lineTo(-w/2,h/2);q.lineTo(w/2,h/2);q.lineTo(w/2,-h/2);q.closePath();s.holes.push(q);
+ const g=new T.ExtrudeGeometry(s,{depth:t,bevelEnabled:false});g.rotateY(Math.PI/2);return mesh(g,[caps,sides],grp,x,0,0)
+}
+function straws(x0,h,w,grp){
+ const py=5.37,pz=6.2,g=new T.CylinderGeometry(3,3,40,8,1,true);g.rotateZ(Math.PI/2);const p=[];
+ for(let j=0,y=-h/2+3;y<h/2-2;y+=py,j++)for(let z=-w/2+3+(j%2)*3.1;z<w/2-2;z+=pz)p.push([y,z]);
+ const im=new T.InstancedMesh(g,strawM,p.length),m=new T.Matrix4();im.frustumCulled=false;p.forEach((q,i)=>{m.setPosition(x0+20,q[0],q[1]);im.setMatrixAt(i,m)});grp.add(im)
+}
+function wood(){
+ const c=document.createElement('canvas');c.width=c.height=512;const g=c.getContext('2d');g.fillStyle='#1e293b';g.fillRect(0,0,512,512);
+ for(let i=0;i<120;i++){g.strokeStyle='rgba(56,189,248,'+(.02+Math.random()*.04)+')';g.lineWidth=1+Math.random()*2;g.beginPath();const y=Math.random()*512;g.moveTo(0,y);g.bezierCurveTo(170,y+Math.random()*14-7,340,y+Math.random()*14-7,512,y);g.stroke()}
+ const t=new T.CanvasTexture(c);t.wrapS=t.wrapT=T.RepeatWrapping;t.repeat.set(6,3);t.encoding=T.sRGBEncoding;t.anisotropy=4;return t
+}
+function cable(pts,col,rad){
+ const c=new T.CatmullRomCurve3(pts.map(p=>new T.Vector3(p[0],p[1],p[2])));return new T.Mesh(new T.TubeGeometry(c,30,rad||1.6,8,false),S(col,.6,0))
+}
+
+const G={};['can','m1','m2','m3','m4','fan'].forEach(k=>{G[k]=new T.Group();sc.add(G[k])});
+const tab=new T.Mesh(new T.PlaneGeometry(4000,1600),S(0xffffff,.55,0,{map:wood()}));
+tab.rotation.x=-Math.PI/2;tab.position.set(200,-80.6,0);tab.receiveShadow=true;sc.add(tab);
+
+/* M1 giriş + bal peteği */
+ring(130,160,120,150,100,0,G.m1,foam,paper);
+straws(0,150,120,G.m1);
+ring(160,190,120,150,10,90,G.m1,paper,foam);
+
+/* M2 test odası */
+const plate=[foam,foam,paper,paper,foam,foam];
+box(300,5,147,plate,G.m2,250,-77.5,0);
+box(300,5,147,plate,G.m2,250,77.5,0);
+const panes=[-61.5,61.5].map(z=>{
+  [105,395].forEach(x=>box(10,150,5,[foam,foam,foam,foam,paper,paper],G.m2,x,0,z>0?62.5:-62.5));
+  return box(280,165,3,paneM,G.m2,250,5,z);
+});
+const ledOn=new T.MeshBasicMaterial({color:0x38bdf8}), ledOff=S(0x475569,.6);
+const led=box(280,1.5,10,ledOn,G.m2,250,74,0);
+const pl=new T.PointLight(0x38bdf8,1.4,420,1);
+pl.position.set(250,60,0);
+G.m2.add(pl);
+
+/* Test Arabası (Aerodinamik Araç Modeli) */
+const car=new T.Group();car.position.set(240,-75,0);G.m2.add(car);
+const paint=new T.MeshPhysicalMaterial({color:0x0284c7,roughness:.25,metalness:.2,clearcoat:1,clearcoatRoughness:.1});
+const glass=S(0x030712,.08,.8);
+const bs=new T.Shape();
+[[-40,5],[-41,9],[-34,12],[-14,14],[-6,21],[12,22.5],[22,15],[39,15],[40,10],[39,5]].forEach((p,i)=>i?bs.lineTo(p[0],p[1]):bs.moveTo(p[0],p[1]));
+bs.closePath();
+const bg=new T.ExtrudeGeometry(bs,{depth:32,bevelEnabled:true,bevelSize:1.5,bevelThickness:1.5,bevelSegments:2});
+bg.translate(0,0,-16);mesh(bg,paint,car);
+const ws=new T.Shape();
+[[-8,15.5],[-6,19.2],[12,20.7],[20.5,15.5]].forEach((p,i)=>i?ws.lineTo(p[0],p[1]):ws.moveTo(p[0],p[1]));
+ws.closePath();
+const wg=new T.ExtrudeGeometry(ws,{depth:35.4,bevelEnabled:false});
+wg.translate(0,0,-17.7);mesh(wg,glass,car);
+const tire=S(0x0f172a,.9),rim=S(0x94a3b8,.25,1);
+[[-26,-15],[-26,15],[26,-15],[26,15]].forEach(q=>{
+  const a=new T.CylinderGeometry(7,7,6,24);a.rotateX(Math.PI/2);mesh(a,tire,car,q[0],7,q[1]);
+  const b=new T.CylinderGeometry(4.2,4.2,6.4,14);b.rotateX(Math.PI/2);mesh(b,rim,car,q[0],7,q[1]);
+});
+box(5,1.5,36,paint,car,36,27,0);
+[-13,13].forEach(z=>box(1.5,10,2,paint,car,36,22,z));
+
+/* M3 geçiş */
+ring(160,190,120,150,10,400,G.m3,paper,foam);
+[-1,1].forEach(s=>{
+  const sh2=new T.Shape();sh2.moveTo(0,-80);sh2.lineTo(120,-65);sh2.lineTo(120,65);sh2.lineTo(0,80);sh2.closePath();
+  const g=new T.ExtrudeGeometry(sh2,{depth:5,bevelEnabled:false});mesh(g,[paper,foam],G.m3,400,0,s>0?60:-65);
+  const p=box(121,5,130,plate,G.m3,460,s*70,0);p.rotation.z=-s*.1244;
+});
+
+/* M4 çıkış peteği + fan */
+ring(130,130,120,120,40,520,G.m4,foam,paper);
+straws(520,120,120,G.m4);
+ring(160,160,120,120,10,515,G.m4,paper,foam);
+ring(160,160,120,120,10,550,G.m4,paper,foam);
+
+const fs=new T.Shape();fs.moveTo(-60,-60);fs.lineTo(60,-60);fs.lineTo(60,60);fs.lineTo(-60,60);fs.closePath();
+const hc=new T.Path();hc.absarc(0,0,56,0,Math.PI*2,true);fs.holes.push(hc);
+const fg=new T.ExtrudeGeometry(fs,{depth:25,bevelEnabled:false});fg.rotateY(Math.PI/2);mesh(fg,plastic,G.fan,560,0,0);
+const bl=new T.Group();bl.position.x=572.5;G.fan.add(bl);
+const hub=new T.CylinderGeometry(17,17,22,28);hub.rotateZ(Math.PI/2);mesh(hub,plastic,bl);
+for(let i=0;i<7;i++){
+  const b=new T.Group();b.rotation.x=i*2*Math.PI/7;
+  const m=box(3,38,15,mAc,b,0,36,0);m.rotation.y=.6;bl.add(b);
+}
+[[-1,-1],[-1,1],[1,-1],[1,1]].forEach(q=>mesh(new T.CylinderGeometry(2.5,2.5,4,12),S(0x1e293b,.4,.5),G.fan,585,q[0]*52,q[1]*52).rotation.z=Math.PI/2);
+
+/* PWM modül */
+const pwm=new T.Group();sc.add(pwm);box(44,8,30,S(0x0284c7,.5,.1),pwm,480,-76,170);
+const knob=mesh(new T.CylinderGeometry(6,6,9,24),S(0x0f172a,.5,.2),pwm,486,-68,170);
+box(1.2,9.5,5,S(0xffffff,.5),knob,0,0,-3);
+sc.add(cable([[472,-72,155],[500,-78,125],[555,-78,92],[572,-60,62]],0xef4444),cable([[474,-72,155],[502,-79,125],[557,-79,92],[574,-60,62]],0x0f172a));
+
+/* sis kabı */
+const cx=-165;
+mesh(new T.CylinderGeometry(60,60,150,56,1,true),canM,G.can,cx,-5,0);
+const bd=new T.CircleGeometry(60,56);bd.rotateX(-Math.PI/2);mesh(bd,canM,G.can,cx,-79.8,0);
+mesh(new T.CylinderGeometry(62,62,3,56),canM,G.can,cx,72,0);
+mesh(new T.CylinderGeometry(7,7,4,16),S(0x1e293b,.6),G.can,cx+30,72,0);
+mesh(new T.CylinderGeometry(58,58,41,48),S(0x0284c7,.05,0,{transparent:true,opacity:.45,depthWrite:false}),G.can,cx,-59.5,0);
+mesh(new T.CylinderGeometry(14,14,6,28),S(0x334155,.35,.6),G.can,cx,-77,0);
+G.can.add(cable([[cx+10,-74,0],[cx+25,-60,0],[cx+30,40,0],[cx+30,76,0],[cx+36,92,0]],0x0f172a,1.4));
+mesh(new T.CylinderGeometry(7,7,22,16),S(0xe2e8f0,.1,0),G.can,cx+66,-5,0).rotation.z=Math.PI/2;
+const hose=new T.Mesh(new T.TubeGeometry(new T.CatmullRomCurve3([new T.Vector3(-108,-5,0),new T.Vector3(-85,-5,0),new T.Vector3(-55,-35,0),new T.Vector3(-30,-57,0)]),28,6,12,false),S(0xe2e8f0,.08,0,{transparent:true,opacity:.4,envMapIntensity:1.5,depthWrite:false}));
+G.can.add(hose);
+box(14,10,40,S(0x94a3b8,.4),G.can,-22,-57,0);
+
+/* sis parçacıkları */
+const NP=2800, pp=new Float32Array(NP*3), pv=new Float32Array(NP);
+function spawn(i,init){
+  pp[i*3]=init?-22+Math.random()*440:-24;
+  pp[i*3+1]=-57+(Math.random()-.5)*20;
+  pp[i*3+2]=(Math.random()-.5)*38;
+  pv[i]=.8+Math.random()*.4;
+}
+for(let i=0;i<NP;i++) spawn(i,true);
+
+const pg=new T.BufferGeometry();
+pg.setAttribute('position',new T.BufferAttribute(pp,3));
+const spc=document.createElement('canvas');spc.width=spc.height=64;
+const sg=spc.getContext('2d'), gr=sg.createRadialGradient(32,32,0,32,32,32);
+gr.addColorStop(0,'rgba(224,242,254,1)');
+gr.addColorStop(1,'rgba(224,242,254,0)');
+sg.fillStyle=gr;sg.fillRect(0,0,64,64);
+const fogP=new T.Points(pg,new T.PointsMaterial({map:new T.CanvasTexture(spc),size:32,transparent:true,opacity:.22,depthWrite:false,sizeAttenuation:true}));
+fogP.frustumCulled=false;
+sc.add(fogP);
+
+/* ölçü çizgileri */
+const dimsG=new T.Group();dimsG.visible=false;sc.add(dimsG);
+const lm=new T.LineBasicMaterial({color:ac}), dtags=[];
+function dim(a,b,t){
+  dimsG.add(new T.Line(new T.BufferGeometry().setFromPoints([new T.Vector3(...a),new T.Vector3(...b)]),lm));
+  const el=document.createElement('div');el.className='tag dim';el.textContent=t;st.appendChild(el);
+  const o=new T.Object3D();o.position.set((a[0]+b[0])/2,(a[1]+b[1])/2,(a[2]+b[2])/2);sc.add(o);
+  dtags.push({el,a:o});
+}
+dim([100,-100,110],[400,-100,110],'Test Odası: 300 mm');
+dim([0,-100,145],[585,-100,145],'Toplam Boy: ≈ 585 mm');
+dim([0,-75,85],[0,75,85],'Yükseklik: 150 mm');
+dim([0,95,-60],[0,95,60],'Genişlik: 120 mm');
+
+/* gölgeler */
+sc.traverse(o=>{if(o.isMesh&&o!==tab){const m=[].concat(o.material)[0];if(!m.transparent){o.castShadow=true;o.receiveShadow=true}}});
+
+/* etiketler */
+const tags=[['Sis Jeneratörü',G.can,[cx,90,0]],['M1 Giriş & Bal Peteği',G.m1,[50,100,0]],['M2 Test Odası (300mm)',G.m2,[250,104,0]],['M3 Daralma Geçişi',G.m3,[460,100,0]],['M4 Çıkış Peteği',G.m4,[540,100,0]],['Fan Ünitesi (120mm)',G.fan,[572,84,0]],['PWM Hız Kontrolörü',pwm,[480,-56,170]]].map(t=>{
+ const el=document.createElement('div');el.className='tag';el.textContent=t[0];st.appendChild(el);
+ const a=new T.Object3D();a.position.set(t[2][0],t[2][1],t[2][2]);t[1].add(a);return{el,a}
+});
+
+/* kamera ve etkileşim */
+const tg=new T.Vector3(200,-10,0);
+const V={iso:[-.75,.42,1300],yan:[0,.04,1300],ust:[0,1.5,1300],giris:[-1.5,.1,900]};
+let az=-.75, el=.42, rad=1300, taz=az, tel=el, trad=rad;
+
+function setCam(){
+  cam.position.set(tg.x+rad*Math.cos(el)*Math.sin(az),tg.y+rad*Math.sin(el),tg.z+rad*Math.cos(el)*Math.cos(az));
+  cam.lookAt(tg);
+}
+document.querySelectorAll('[data-v]').forEach(b=>b.addEventListener('click',()=>{
+  const v=V[b.dataset.v];taz=v[0];tel=v[1];trad=v[2];
+}));
+
+const on={sis:true,led:true,kes:false,cam:false,dim:false}, cp=new T.Plane(new T.Vector3(0,0,-1),0);
+function clip(f){
+  sc.traverse(o=>{if(o.material)[].concat(o.material).forEach(m=>{m.clippingPlanes=f?[cp]:null;m.needsUpdate=true})});
+}
+document.querySelectorAll('[data-t]').forEach(b=>b.addEventListener('click',()=>{
+  const k=b.dataset.t;on[k]=!on[k];b.setAttribute('aria-pressed',on[k]);
+  if(k==='kes') clip(on.kes);
+  if(k==='led'){led.material=on.led?ledOn:ledOff;pl.intensity=on.led?1.4:0}
+  if(k==='dim') dimsG.visible=on.dim;
+}));
+
+let dr=null;const cv=r.domElement;
+cv.addEventListener('pointerdown',e=>{dr=[e.clientX,e.clientY];cv.setPointerCapture(e.pointerId);st.style.cursor='grabbing'});
+cv.addEventListener('pointerup',()=>{dr=null;st.style.cursor='grab'});
+cv.addEventListener('pointermove',e=>{
+  if(!dr) return;
+  taz-=(e.clientX-dr[0])*.006;
+  tel=Math.min(1.52,Math.max(-.1,tel+(e.clientY-dr[1])*.006));
+  dr=[e.clientX,e.clientY];
+});
+st.addEventListener('wheel',e=>{e.preventDefault();trad=Math.min(2600,Math.max(350,trad*(1+Math.sign(e.deltaY)*.08)))},{passive:false});
+
+function rs(){
+  const w=st.clientWidth, h=st.clientHeight;
+  if(!w||!h) return;
+  r.setSize(w,h,false);
+  cam.aspect=w/h;
+  cam.updateProjectionMatrix();
+}
+window.addEventListener('resize',rs);
+new ResizeObserver(rs).observe(st);
+rs();
+
+const v3=new T.Vector3();let paneY=0;
+function loop(){
+ az+=(taz-az)*.14; el+=(tel-el)*.14; rad+=(trad-rad)*.14; setCam();
+ const e=+$('ex').value, s=e*45, fan=+$('fan').value;
+ G.can.position.x=-s; G.m2.position.x=s; G.m3.position.x=2*s; G.m4.position.x=3*s; G.fan.position.x=4*s;
+ paneY+=((on.cam?150:0)-paneY)*.1;
+ panes.forEach(p=>p.position.y=5+paneY);
+ knob.rotation.y=-fan*4.2;
+ bl.rotation.x+=.6*fan;
+ 
+ const flow=on.sis&&e<.05;
+ fogP.visible=flow;
+ if(flow){
+   const u=fan*4.2;
+   for(let i=0;i<NP;i++){
+     let x=pp[i*3], y=pp[i*3+1], z=pp[i*3+2];
+     x+=u*pv[i];
+     const dx=x-240, dy=y+58, d=Math.hypot(dx/50,dy/24,z/27);
+     if(d<1.25){
+       const k=(1.25-d)*7, n=Math.hypot(dx/2500,dy/576,z/729)||1;
+       x+=k*dx/2500/n; y+=k*dy/576/n; z+=k*z/729/n;
+     }
+     if(dx>25&&dx<160&&Math.abs(z)<32&&Math.abs(dy)<28){
+       x-=u*pv[i]*.5; y+=(Math.random()-.5)*1.8*fan; z+=(Math.random()-.5)*1.8*fan;
+     }
+     y+=(Math.random()-.5)*.2; z+=(Math.random()-.5)*.2;
+     if(y<-72)y=-72; if(y>72)y=72; if(z>57)z=57; if(z<-57)z=-57;
+     if(x>430) spawn(i);
+     else{ pp[i*3]=x; pp[i*3+1]=y; pp[i*3+2]=z; }
+   }
+   pg.attributes.position.needsUpdate=true;
+ }
+ const w=st.clientWidth, h=st.clientHeight;
+ function place(t,show){
+   t.a.getWorldPosition(v3);
+   v3.project(cam);
+   t.el.style.display=show&&v3.z<1?'block':'none';
+   t.el.style.left=((v3.x*.5+.5)*w)+'px';
+   t.el.style.top=((-v3.y*.5+.5)*h)+'px';
+ }
+ tags.forEach(t=>place(t,true));
+ dtags.forEach(t=>place(t,on.dim));
+ r.render(sc,cam);
+ requestAnimationFrame(loop);
+}
+loop();
+})();
+</script>
+</body>
+</html>
